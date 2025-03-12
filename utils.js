@@ -1,3 +1,5 @@
+const mongoose = require('mongoose')
+
 async function logDocumentsInCollections () {
   const collections = await mongoose.connection.db.listCollections().toArray();
     
@@ -18,4 +20,4 @@ async function logDocumentsInCollections () {
   }
 }
 
-export { logDocumentsInCollections }
+module.exports = logDocumentsInCollections

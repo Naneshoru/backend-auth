@@ -4,12 +4,14 @@ const app = express()
 
 app.use(express.json())
 
+const routes = require('./routes')
+
 const mongoose = require('mongoose')
 
-const { logDocumentsInCollections } = require('./utils')
+const logDocumentsInCollections = require('./utils')
 
 main()
-  .then(what => console.log('listening to ', what))
+  .then(() => console.log('connected to db'))
   .catch(err => console.log(err))
 
 async function main () {
@@ -17,15 +19,8 @@ async function main () {
   logDocumentsInCollections()
 }
 
-app.get('/', (req, res) => {
-  res.json('Hello world')
-})
+app.use('/api', routes)
 
-app.post('/register', (req, res) => {
-  
-  res.json('Hello world')
-})
-
-app.listen('3000', () => {
-  console.log('Listening on port 3000')
+app.listen('3030', () => {
+  console.log('Listening on port 3030')
 })

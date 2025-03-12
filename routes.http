@@ -1,0 +1,6 @@
+###
+
+GET http://localhost:3030/api/users
+
+###
+GET http://localhost:3030/api/users?text=test2
