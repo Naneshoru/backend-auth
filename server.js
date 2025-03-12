@@ -1,14 +1,11 @@
-const express = require('express')
+import express from 'express'
+import mongoose from 'mongoose'
+import routes from './routes.js'
+import { logDocumentsInCollections } from './utils.js'
 
 const app = express()
 
 app.use(express.json())
-
-const routes = require('./routes')
-
-const mongoose = require('mongoose')
-
-const logDocumentsInCollections = require('./utils')
 
 main()
   .then(() => console.log('connected to db'))

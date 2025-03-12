@@ -1,16 +1,9 @@
-const mongoose = require('mongoose')
-const express = require('express')
-const bcrypt = require('bcrypt')
+import mongoose from 'mongoose'
+import express from 'express'
+import bcrypt from 'bcrypt'
+import { User } from './models/user.js'
 
 const router = express.Router()
-
-const userSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  password: String
-})
-
-const User = mongoose.model('User', userSchema)
 
 router.get('/', (req, res) => {
   res.json('Hello world')
@@ -63,4 +56,4 @@ router.delete('/users/:userId', async (req, res) => {
   }
 })
 
-module.exports = router
+export default router
