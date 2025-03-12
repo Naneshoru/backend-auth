@@ -1,11 +1,14 @@
 import express from 'express'
 import mongoose from 'mongoose'
+import dotenv from 'dotenv'
 import routes from './routes.js'
 import { logDocumentsInCollections } from './utils.js'
 
 const app = express()
 
 app.use(express.json())
+
+dotenv.config()
 
 main()
   .then(() => console.log('connected to db'))

@@ -1,6 +1,7 @@
 ###
 
 GET http://localhost:3030/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjdkMWUwMjcyYTM4OWI3M2M0OWI3MWI1In0sImlhdCI6MTc0MTgxMDE1MiwiZXhwIjoxNzQxODEzNzUyfQ.ZpWrTpBKTwafQ3-1Ir2BwqGHiiY0JcYlQyoAYjJRcaU
 
 ###
 GET http://localhost:3030/api/users?text=test2
@@ -17,4 +18,14 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3030/api/users/67d1c573bd3101386bd3ac39
+DELETE http://localhost:3030/api/users/67d1eaf549743a738d79bd96
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjdkMWUwMjcyYTM4OWI3M2M0OWI3MWI1In0sImlhdCI6MTc0MTgxMDE1MiwiZXhwIjoxNzQxODEzNzUyfQ.ZpWrTpBKTwafQ3-1Ir2BwqGHiiY0JcYlQyoAYjJRcaU
+
+###  LOGIN
+POST http://localhost:3030/api/login
+Content-Type: application/json
+
+{
+  "email": "atakiama@outlook.com.br",
+  "password": "batata"
+}

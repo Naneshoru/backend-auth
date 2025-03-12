@@ -1,15 +1,13 @@
 import mongoose from 'mongoose'
 import express from 'express'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import protectRoute from './middlewares/auth-middleware.js'
 import { User } from './models/user.js'
 
 const router = express.Router()
 
-router.get('/', (req, res) => {
-  res.json('Hello world')
-})
-
-router.get('/users', async (req, res) => {
+router.get('/users', protectRoute, async (req, res) => {
   try {
     const { text = '' } = req.query
     const docs = await mongoose.connection.collection('users').find({
@@ -37,13 +35,12 @@ router.post('/register', async (req, res) => {
   }
 })
 
-router.delete('/users/:userId', async (req, res) => {
+router.delete('/users/:userId', protectRoute, async (req, res) => {
   const { userId } = req.params
   try {
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
       return res.status(400).json({ message: 'Id do usuário é inválido' });
     }
-
     const user = await User.findByIdAndDelete(userId);
 
     if (!user) {
@@ -54,6 +51,30 @@ router.delete('/users/:userId', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: `Erro ao deletar usuário: ${error.message}` })
   }
+})
+
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body
+
+  const user = await User.findOne({ email })
+
+  if (!user) {
+    return res.status(400).json({ message: 'Credenciais inválidas.' })
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password)
+
+  if (!isMatch) {
+    return res.status(400).json({ message: 'Credenciais inválidas.'})
+  }
+
+  const token = jwt.sign(
+    { user: { id: user._id }}, 
+    process.env.JWT_SECRET_KEY, 
+    { expiresIn: '1h' }
+  )
+
+  res.json({ token })
 })
 
 export default router
