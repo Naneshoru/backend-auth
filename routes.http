@@ -4,3 +4,17 @@ GET http://localhost:3030/api/users
 
 ###
 GET http://localhost:3030/api/users?text=test2
+
+###
+
+POST http://localhost:3030/api/register
+Content-Type: application/json
+
+{
+  "name": "Renato",
+  "email": "renatinho@outlook.com.br",
+  "password": "maça"
+}
+
+###
+DELETE http://localhost:3030/api/users/67d1c573bd3101386bd3ac39
