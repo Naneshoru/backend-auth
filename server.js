@@ -1,6 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import cors from 'cors'
 import routes from './routes.js'
 import { logDocumentsInCollections } from './utils.js'
 
@@ -9,6 +10,8 @@ const app = express()
 app.use(express.json())
 
 dotenv.config()
+
+app.use(cors())
 
 main()
   .then(() => console.log('connected to db'))
