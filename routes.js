@@ -31,7 +31,7 @@ router.post('/register', async (req, res) => {
     await newUser.save()
     res.status(201).json({ message: 'Usuário criado com sucesso!' })
   } catch (error) {
-    res.status(500).json({ error: `Erro ao criar usuário: ${error.message}` })
+    res.status(500).json({ message: `Erro ao criar usuário: ${error.message}` })
   }
 })
 
@@ -69,12 +69,62 @@ router.post('/login', async (req, res) => {
   }
 
   const token = jwt.sign(
-    { user: { id: user._id }}, 
+    { user: { id: user._id, name: user.name, email: user.email }}, 
     process.env.JWT_SECRET_KEY, 
-    { expiresIn: '1h' }
+    { expiresIn: '15m' }
   )
 
-  res.json({ token })
+  const refreshToken = jwt.sign(
+    { user: { id: user._id, name: user.name, email: user.email }},
+    process.env.JWT_SECRET_KEY,
+    { expiresIn: '7d' }
+  )
+
+  user.refreshToken = refreshToken
+  await user.save()
+
+  res.json({ token, refreshToken })
+})
+
+router.post('/refresh', async (req, res) => {
+  const { refreshToken } = req.body
+
+  if (!refreshToken) { return res.status(401).json({ message: 'Token ausente' }) }
+
+  try {
+    const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET_KEY)
+  
+    const user = await User.findById(decoded.user.id);
+    if (!user) {
+      return res.status(404).json({ message: 'Usuário não encontrado' });
+    }
+
+    if (user.refreshToken !== refreshToken) {
+      console.log(user)
+
+      console.log(refreshToken)
+      return res.status(403).json({ message: 'Token inválido' });
+    }
+  
+    const token = jwt.sign(
+      { user: { id: user._id, name: user.name, email: user.email }}, 
+      process.env.JWT_SECRET_KEY, 
+      { expiresIn: '15m' }
+    )
+  
+    const newRefreshToken = jwt.sign(
+      { user: { id: user._id, name: user.name, email: user.email }},
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: '7d' }
+    )
+  
+    user.refreshToken = newRefreshToken
+    await user.save()
+  
+    res.json({ token, refreshToken: newRefreshToken })
+  } catch (error) {
+    return res.status(403).json({ message: 'Token inválido ou expirado' })
+  }
 })
 
 export default router

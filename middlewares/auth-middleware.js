@@ -4,7 +4,7 @@ const protectRoute = (req, res, next) => {
   const authHeader = req.headers.authorization
 
   if (!authHeader) {
-    return res.status(401).json({ message: 'Authorization header is missing' })
+    return res.status(401).json({ message: 'Não há cabeçalho de autorização' })
   }
 
   const token = authHeader.split(' ')[1]
@@ -14,7 +14,7 @@ const protectRoute = (req, res, next) => {
     req.user = decoded.user
     next()
   } catch (error) {
-    res.status(401).json({ message: 'Invalid token' })
+    res.status(401).json({ message: 'Token inválido' })
   }
 }
 
