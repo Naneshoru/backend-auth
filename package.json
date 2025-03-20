@@ -2,8 +2,7 @@
   "type": "module",
   "main": "src/server.ts",
   "scripts": {
-    "devvvv": "nodemon --watch src --ext ts --exec 'node --loader ts-node/esm' src/server.ts",
-    "dev": "ts-node-dev --loader ts-node/esm --transpile-only --files src/server.ts",
+    "dev": "node --no-warnings=ExperimentalWarning --loader ts-node/esm src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js"
   },
