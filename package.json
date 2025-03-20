@@ -1,5 +1,12 @@
 {
   "type": "module",
+  "main": "src/server.ts",
+  "scripts": {
+    "devvvv": "nodemon --watch src --ext ts --exec 'node --loader ts-node/esm' src/server.ts",
+    "dev": "ts-node-dev --loader ts-node/esm --transpile-only --files src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
@@ -10,6 +17,14 @@
     "mongoose": "^8.12.1"
   },
   "devDependencies": {
-    "@types/node": "^22.13.10"
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/node": "^22.13.10",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.2"
   }
 }

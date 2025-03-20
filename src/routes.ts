@@ -1,13 +1,15 @@
 import mongoose from 'mongoose'
 import express from 'express'
+import { Request, Response } from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import protectRoute from './middlewares/auth-middleware.js'
-import { User } from './models/user.js'
+import protectRoute from './middlewares/auth-middleware.ts'
+import { User, IUser } from './models/user.ts'
+import { DecodedToken } from './types/decoded-token.ts'
 
 const router = express.Router()
 
-router.get('/users', protectRoute, async (req, res) => {
+router.get('/users', protectRoute, async (req: Request, res: Response): Promise<any> => {
   try {
     const { text = '' } = req.query
     const docs = await mongoose.connection.collection('users').find({
@@ -15,27 +17,27 @@ router.get('/users', protectRoute, async (req, res) => {
     }).toArray()
     res.json(docs)
   } catch (error) {
-    res.status(500).json({ error: `Erro ao buscar usuário: ${error.message}` })
+    res.status(500).json({ error: `Erro ao buscar usuário: ${(error as Error).message}` })
   }
 })
 
-router.post('/register', async (req, res) => {
+router.post('/register', async (req: Request, res: Response): Promise<any> => {
   try {
-    const { name, email, password } = req.body
+    const { name, email, password }: { name: string; email: string; password: string } = req.body
     if (!name || !email || !password) {
       return res.status(400).json({ message: 'Campos obrigatórios (nome, email e senha).' })
     }
-    const saltRounds = 10;
+    const saltRounds = 10
     const hashed = await bcrypt.hash(password, saltRounds)
-    const newUser = new User({ name, email, password: hashed })
+    const newUser: IUser = new User({ name, email, password: hashed })
     await newUser.save()
     res.status(201).json({ message: 'Usuário criado com sucesso!' })
   } catch (error) {
-    res.status(500).json({ message: `Erro ao criar usuário: ${error.message}` })
+    res.status(500).json({ message: `Erro ao criar usuário: ${(error as Error).message}` })
   }
 })
 
-router.delete('/users/:userId', protectRoute, async (req, res) => {
+router.delete('/users/:userId', protectRoute, async (req, res): Promise<any> => {
   const { userId } = req.params
   try {
     if (!mongoose.Types.ObjectId.isValid(userId)) {
@@ -49,11 +51,11 @@ router.delete('/users/:userId', protectRoute, async (req, res) => {
 
     res.json({ message: 'Usuário deletado com sucesso!' })
   } catch (error) {
-    res.status(500).json({ error: `Erro ao deletar usuário: ${error.message}` })
+    res.status(500).json({ error: `Erro ao deletar usuário: ${(error as Error).message}` })
   }
 })
 
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res): Promise<any> => {
   const { email, password } = req.body
 
   const user = await User.findOne({ email })
@@ -70,13 +72,13 @@ router.post('/login', async (req, res) => {
 
   const token = jwt.sign(
     { user: { id: user._id, name: user.name, email: user.email }}, 
-    process.env.JWT_SECRET_KEY, 
+    process.env.JWT_SECRET_KEY as string, 
     { expiresIn: '15m' }
   )
 
   const refreshToken = jwt.sign(
     { user: { id: user._id, name: user.name, email: user.email }},
-    process.env.JWT_SECRET_KEY,
+    process.env.JWT_SECRET_KEY as string,
     { expiresIn: '7d' }
   )
 
@@ -86,13 +88,17 @@ router.post('/login', async (req, res) => {
   res.json({ token, refreshToken })
 })
 
-router.post('/refresh', async (req, res) => {
+router.post('/refresh', async (req: Request, res: Response): Promise<any> => {
   const { refreshToken } = req.body
 
   if (!refreshToken) { return res.status(401).json({ message: 'Token ausente' }) }
 
   try {
-    const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET_KEY)
+    const secretKey = process.env.JWT_SECRET_KEY;
+    if (!secretKey) {
+      return res.status(500).json({ message: 'JWT secret key is not configured' });
+    }
+    const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET_KEY as string) as DecodedToken
   
     const user = await User.findById(decoded.user.id);
     if (!user) {
@@ -100,21 +106,18 @@ router.post('/refresh', async (req, res) => {
     }
 
     if (user.refreshToken !== refreshToken) {
-      console.log(user)
-
-      console.log(refreshToken)
       return res.status(403).json({ message: 'Token inválido' });
     }
   
     const token = jwt.sign(
       { user: { id: user._id, name: user.name, email: user.email }}, 
-      process.env.JWT_SECRET_KEY, 
+      process.env.JWT_SECRET_KEY as string, 
       { expiresIn: '15m' }
     )
   
     const newRefreshToken = jwt.sign(
       { user: { id: user._id, name: user.name, email: user.email }},
-      process.env.JWT_SECRET_KEY,
+      process.env.JWT_SECRET_KEY as string,
       { expiresIn: '7d' }
     )
   
