@@ -1,6 +1,6 @@
 /// <reference path="../types/request.d.ts" />
 
-import jwt from 'jsonwebtoken'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 import type { NextFunction, Request, Response } from 'express'
 
 const protectRoute = (req: Request, res: Response, next: NextFunction): void  => {
@@ -23,14 +23,17 @@ const protectRoute = (req: Request, res: Response, next: NextFunction): void  =>
       throw new Error('JWT_SECRET_KEY não definido nas variáveis de ambiente')
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY) as { user: { id: string; name: string; email: string } }
-
-    if (typeof decoded === 'object' && 'user' in decoded) {
+    jwt.verify(
+      token, 
+      process.env.JWT_SECRET_KEY,
+    (err, decoded: JwtPayload) => {
+      if (err) {
+        res.status(401).json({ message: 'Token payload inválido' })
+        return
+      }
       req.user = decoded.user
       next()
-    } else {
-      throw new Error('Token payload inválido')
-    }
+    })
   } catch (error) {
     res.status(401).json({ message: 'Token inválido' })
     return

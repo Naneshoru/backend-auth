@@ -22,14 +22,22 @@ class AuthController {
     }
 
     const token = jwt.sign(
-      { user: { id: user._id, name: user.name, email: user.email }}, 
-      process.env.JWT_SECRET_KEY as string, 
+      { 
+        user: { 
+          id: user._id, name: user.name, email: user.email 
+        }
+      },
+      process.env.JWT_SECRET_KEY, 
       { expiresIn: '15m' }
     )
 
     const refreshToken = jwt.sign(
-      { user: { id: user._id, name: user.name, email: user.email }},
-      process.env.JWT_SECRET_KEY as string,
+      { 
+        user: { 
+          id: user._id, name: user.name, email: user.email 
+        }
+      },
+      process.env.JWT_SECRET_KEY,
       { expiresIn: '7d' }
     )
 
@@ -49,7 +57,10 @@ class AuthController {
       if (!secretKey) {
         return res.status(500).json({ message: 'JWT secret key is not configured' });
       }
-      const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET_KEY as string) as DecodedToken
+      const decoded = jwt.verify(
+        refreshToken, 
+        process.env.JWT_SECRET_KEY
+      ) as DecodedToken
     
       const user = await User.findById(decoded.user.id);
       if (!user) {
@@ -61,14 +72,22 @@ class AuthController {
       }
     
       const token = jwt.sign(
-        { user: { id: user._id, name: user.name, email: user.email }}, 
-        process.env.JWT_SECRET_KEY as string, 
+        { 
+          user: { 
+            id: user._id, name: user.name, email: user.email 
+          }
+        }, 
+        process.env.JWT_SECRET_KEY, 
         { expiresIn: '15m' }
       )
     
       const newRefreshToken = jwt.sign(
-        { user: { id: user._id, name: user.name, email: user.email }},
-        process.env.JWT_SECRET_KEY as string,
+        { 
+          user: { 
+            id: user._id, name: user.name, email: user.email 
+          }
+        },
+        process.env.JWT_SECRET_KEY,
         { expiresIn: '7d' }
       )
     
