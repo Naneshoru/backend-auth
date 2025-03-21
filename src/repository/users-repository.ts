@@ -22,7 +22,7 @@ export class UsersRepository {
     await newUser.save()
   }
 
-  async delete (userId) {
+  async delete (userId: string) {
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       throw new AppError(`Id do usuário é inválido!`)
     }

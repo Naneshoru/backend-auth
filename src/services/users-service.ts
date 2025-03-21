@@ -21,7 +21,7 @@ export class UsersService {
     await this.usersRepository.create({ name, email, password })
   }
 
-  async deleteUser (userId) {
+  async deleteUser (userId: string) {
     await this.usersRepository.delete(userId)
   }
 }
