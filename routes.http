@@ -1,7 +1,7 @@
 ###
 
 GET http://localhost:3030/api/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjdkMWUwMjcyYTM4OWI3M2M0OWI3MWI1IiwibmFtZSI6IlJpY2FyZG8iLCJlbWFpbCI6ImF0YWtpYW1hQG91dGxvb2suY29tLmJyIn0sImlhdCI6MTc0MjU2NjQwNSwiZXhwIjoxNzQyNTY3MzA1fQ.nW_8rW0GsBEM5e4iPQ8UF4k4ngJQxzadQZZNuH7gdpw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjdkMWUwMjcyYTM4OWI3M2M0OWI3MWI1IiwibmFtZSI6IlJpY2FyZG8iLCJlbWFpbCI6ImF0YWtpYW1hQG91dGxvb2suY29tLmJyIn0sImlhdCI6MTc0MjU4MDAxNiwiZXhwIjoxNzQyNTgwOTE2fQ._NCRt0u9plPPXwZJ7ocFu3iGi9sE12qZdOJywxL9r3w
 
 ###
 GET http://localhost:3030/api/users?text=test2
@@ -12,14 +12,14 @@ POST http://localhost:3030/api/users
 Content-Type: application/json
 
 {
-  "name": "Renato2",
+  "name": "Renato3",
   "email": "renatinho2@outlook.com.br",
   "password": "maça"
 }
 
 ###
-DELETE http://localhost:3030/api/users/67d1eaf549743a738d79bd96
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjdkMWUwMjcyYTM4OWI3M2M0OWI3MWI1IiwibmFtZSI6IlJpY2FyZG8iLCJlbWFpbCI6ImF0YWtpYW1hQG91dGxvb2suY29tLmJyIn0sImlhdCI6MTc0MjUyNDA1MywiZXhwIjoxNzQyNTI0OTUzfQ.nyyjKvyW5Zbgn2yfBcNpnKzEFj-Ct9EAsI6XBr0CgR0
+DELETE http://localhost:3030/api/users/67ddacbc465746f4ed985f5c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjdkMWUwMjcyYTM4OWI3M2M0OWI3MWI1IiwibmFtZSI6IlJpY2FyZG8iLCJlbWFpbCI6ImF0YWtpYW1hQG91dGxvb2suY29tLmJyIn0sImlhdCI6MTc0MjU4MDk1MywiZXhwIjoxNzQyNTgxODUzfQ.c74XqwmHTiJOelHc-lKD9zuGETnopErqZo9PRPhQwV0
 
 ###  LOGIN
 POST http://localhost:3030/api/auth/login
@@ -28,4 +28,12 @@ Content-Type: application/json
 {
   "email": "atakiama@outlook.com.br",
   "password": "batata"
+}
+
+### REFRESH
+POST http://localhost:3030/api/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjdkMWUwMjcyYTM4OWI3M2M0OWI3MWI1IiwibmFtZSI6IlJpY2FyZG8iLCJlbWFpbCI6ImF0YWtpYW1hQG91dGxvb2suY29tLmJyIn0sImlhdCI6MTc0MjU4MzAyNSwiZXhwIjoxNzQzMTg3ODI1fQ.XjrMK2iSurQ4P07mbSbcExbBy0Qz5T_SzassC-V4lyM"
 }

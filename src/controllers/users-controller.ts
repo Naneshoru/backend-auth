@@ -1,52 +1,59 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import { User, IUser } from '../models/user.ts'
+import AppError from 'utils/app-error.ts'
 
 export class UsersController {
-  async getUsers (req: Request, res: Response) {
+  async getUsers (req: Request, res: Response, next: NextFunction) {
     try {
       const { text = '' } = req.query
-      const docs = await mongoose.connection.collection('users').find({
+      const users = await mongoose.connection.
+      
+      collection('users').find({
         email: { $regex: text, $options: 'i' }
       }).toArray()
-      res.json(docs)
+
+      res.json(users)
     } catch (error) {
-      res.status(500).json({ error: `Erro ao buscar usuário: ${(error as Error).message}` })
+      next(new Error(`Erro ao buscar usuário: ${(error as Error).message}`))
     }
   }
 
-  async addUser (req: Request, res: Response) {
+  async addUser (req: Request, res: Response, next: NextFunction) {
     try {
       const { name, email, password }: { name: string; email: string; password: string } = req.body
       if (!name || !email || !password) {
-        return res.status(400).json({ message: 'Campos obrigatórios (nome, email e senha).' })
+        throw new AppError('Campos obrigatórios (nome, email e senha)!')
       }
       const saltRounds = 10
       const hashed = await bcrypt.hash(password, saltRounds)
+
       const newUser: IUser = new User({ name, email, password: hashed })
       await newUser.save()
+      
       res.status(201).json({ message: 'Usuário criado com sucesso!' })
     } catch (error) {
-      res.status(500).json({ message: `Erro ao criar usuário: ${(error as Error).message}` })
+      next(new Error(`Erro ao criar usuário: ${(error as Error).message}`))
     }
   }
 
-  async deleteUser (req: Request, res: Response) {
+  async deleteUser (req: Request, res: Response, next: NextFunction) {
     const { userId } = req.params
     try {
       if (!mongoose.Types.ObjectId.isValid(userId)) {
-        res.status(400).json({ message: 'Id do usuário é inválido' });
+        throw new AppError(`Id do usuário é inválido!`)
       }
       const user = await User.findByIdAndDelete(userId);
   
       if (!user) {
-        res.status(404).json({ message: 'Usuário não encontrado' });
+        throw new AppError(`Usuário não encontrado!`)
       }
   
       res.json({ message: 'Usuário deletado com sucesso!' })
     } catch (error) {
-      res.status(500).json({ error: `Erro ao deletar usuário: ${(error as Error).message}` })
+      next(new Error(`Erro ao deletar usuário: ${(error as Error).message}`))
     }
   }
 }
+

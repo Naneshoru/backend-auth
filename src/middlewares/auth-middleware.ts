@@ -2,41 +2,38 @@
 
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import type { NextFunction, Request, Response } from 'express'
+import AppError from 'utils/app-error'
 
 const protectRoute = (req: Request, res: Response, next: NextFunction): void  => {
+  if (!process.env.JWT_SECRET_KEY) {
+    throw new Error('JWT_SECRET_KEY não definido nas variáveis de ambiente')
+  }
+  
   const authHeader = req.headers.authorization
 
   if (!authHeader) {
-    res.status(401).json({ message: 'Não há cabeçalho de autorização' })
-    return
+    throw new AppError('Não há cabeçalho de autorização!', 401)
   }
 
   const token = authHeader.split(' ')[1]
 
   if (!token) {
-    res.status(401).json({ message: 'Token não fornecido' })
-    return
+    throw new AppError('Token não fornecido!', 401)
   }
-  
-  try {
-    if (!process.env.JWT_SECRET_KEY) {
-      throw new Error('JWT_SECRET_KEY não definido nas variáveis de ambiente')
-    }
 
+  try {
     jwt.verify(
       token, 
       process.env.JWT_SECRET_KEY,
     (err, decoded: JwtPayload) => {
       if (err) {
-        res.status(401).json({ message: 'Token payload inválido' })
-        return
+        throw new AppError('Token payload inválido!', 401)
       }
       req.user = decoded.user
       next()
     })
   } catch (error) {
-    res.status(401).json({ message: 'Token inválido' })
-    return
+    throw new AppError('Token inválido!', 401)
   }
 }
 
