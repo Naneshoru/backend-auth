@@ -1,36 +1,45 @@
-import { DecodedToken } from './../types/decoded-token.ts';
-import jwt from 'jsonwebtoken'
-import type { NextFunction, Request , Response } from 'express'
+/// <reference path="../types/request.d.ts" />
 
-const protectRoute = (req: Request, res: Response, next: NextFunction) => {
-  const authHeader = req.headers.authorization;
+import jwt from 'jsonwebtoken'
+import type { NextFunction, Request, Response } from 'express'
+
+const protectRoute = (req: Request, res: Response, next: NextFunction): void => {
+  const authHeader = req.headers.authorization
 
   if (!authHeader) {
-    res.status(401).json({ message: 'Não há cabeçalho de autorização' });
+    res.status(401).json({ message: 'Não há cabeçalho de autorização' })
+    return
   }
 
-  const token = authHeader?.split(' ')[1];
+  if (!req.user) {
+    res.status(401).json({ message: 'Unauthorized' });
+    return
+  }
+
+  const token = authHeader.split(' ')[1]
 
   if (!token) {
-    res.status(401).json({ message: 'Token não fornecido' });
+    res.status(401).json({ message: 'Token não fornecido' })
+    return
   }
 
   try {
     if (!process.env.JWT_SECRET_KEY) {
-      throw new Error('JWT_SECRET_KEY não definido nas variáveis de ambiente');
+      throw new Error('JWT_SECRET_KEY não definido nas variáveis de ambiente')
     }
-    const decoded = jwt.verify(token as string, process.env.JWT_SECRET_KEY as string) as unknown as DecodedToken;
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY) as { user: { id: string; name: string; email: string } }
 
     if (typeof decoded === 'object' && 'user' in decoded) {
-      req.user = decoded.user;
+      req.user = decoded.user
+    console.log(req.user)
+    next()
     } else {
-      throw new Error('Token payload inválido');
+      throw new Error('Token payload inválido')
     }
-    
-    next();
   } catch (error) {
-    res.status(401).json({ message: 'Token inválido' });
+    res.status(401).json({ message: 'Token inválido' })
   }
-};
+}
 
 export default protectRoute

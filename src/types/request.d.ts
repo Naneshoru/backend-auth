@@ -1,9 +1,10 @@
-import { IUser } from "../models/user.ts";
-
+// src/types/request.d.ts
 declare global {
   namespace Express {
-    export interface Request {
-      user?: Partial<IUser>
+    interface Request {
+      user?: { id: string; name: string; email: string };
     }
   }
 }
+
+export {};

@@ -3,7 +3,7 @@ import express from 'express'
 import { Request, Response } from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import protectRoute from './middlewares/auth-middleware.ts'
+import protectRoute from 'middlewares/auth-middleware.ts'
 import { User, IUser } from './models/user.ts'
 import { DecodedToken } from './types/decoded-token.ts'
 

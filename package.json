@@ -1,8 +1,7 @@
 {
-  "type": "module",
   "main": "src/server.ts",
   "scripts": {
-    "dev": "node --no-warnings=ExperimentalWarning --loader ts-node/esm src/server.ts",
+    "dev": "ts-node-dev -r tsconfig-paths/register ./src/server.ts --transpile-only --files",
     "build": "tsc",
     "start": "node dist/server.js"
   },
@@ -24,6 +23,7 @@
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.8.2"
   }
 }
