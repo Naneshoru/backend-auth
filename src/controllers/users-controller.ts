@@ -1,18 +1,21 @@
-import { NextFunction, Request, Response } from 'express'
 import mongoose from 'mongoose'
+import { NextFunction, Request, Response } from 'express'
 import bcrypt from 'bcrypt'
 import { User, IUser } from '../models/user.ts'
 import AppError from 'utils/app-error.ts'
+import { UsersService } from 'services/users-service.ts'
 
 export class UsersController {
-  async getUsers (req: Request, res: Response, next: NextFunction) {
+  usersService
+
+  constructor (usersService: UsersService) {
+    this.usersService = usersService
+  }
+
+  async listAll (req: Request, res: Response, next: NextFunction) {
     try {
       const { text = '' } = req.query
-      const users = await mongoose.connection.
-      
-      collection('users').find({
-        email: { $regex: text, $options: 'i' }
-      }).toArray()
+      const users = await this.usersService.listAllUsers({ text })
 
       res.json(users)
     } catch (error) {
@@ -20,7 +23,7 @@ export class UsersController {
     }
   }
 
-  async addUser (req: Request, res: Response, next: NextFunction) {
+  async add (req: Request, res: Response, next: NextFunction) {
     try {
       const { name, email, password }: { name: string; email: string; password: string } = req.body
       if (!name || !email || !password) {
@@ -38,7 +41,7 @@ export class UsersController {
     }
   }
 
-  async deleteUser (req: Request, res: Response, next: NextFunction) {
+  async delete (req: Request, res: Response, next: NextFunction) {
     const { userId } = req.params
     try {
       if (!mongoose.Types.ObjectId.isValid(userId)) {
