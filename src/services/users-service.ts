@@ -1,4 +1,5 @@
 import { UsersRepository } from "repository/users-repository"
+import AppError from "utils/app-error"
 
 export class UsersService {
   usersRepository
@@ -9,19 +10,18 @@ export class UsersService {
 
   async listAllUsers ({ text }: { text: string }) {
     const users = this.usersRepository.list(text)
-    console.log('[UsersService] listAllUsers')
     return users
   }
 
-  async createUser () {
-
+  async createUser ({ name, email, password }) {
+    if (!name || !email || !password) {
+      throw new AppError('Campos obrigatórios (nome, email e senha)!')
+    }
+    
+    await this.usersRepository.create({ name, email, password })
   }
 
-  async updateUser () {
-
-  }
-
-  async deleteUser () {
-
+  async deleteUser (userId) {
+    await this.usersRepository.delete(userId)
   }
 }
