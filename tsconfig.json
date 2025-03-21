@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2019",
-    "module": "commonjs",
+    "module": "CommonJS",
     "noEmit": true,
     "sourceMap": true, 
     "outDir": "dist", 
@@ -14,18 +14,17 @@
     ],
     "baseUrl": "src",
     "paths": {
-      "middlewares": ["middlewares/*"]
+      "middlewares": ["middlewares/*"],
+      "controllers": ["controllers/*"],
+      "routes": ["routes/*"],
+      "models": ["models/*"],
     }
   },
   "include": [
     "src/**/*.ts", 
-    "src/types/**/*.d.ts"
+    "src/types/**/*.d.ts", 
   ],
   "exclude": [
     "node_modules", "dist"
-  ],
-  "ts-node": {
-    "esm": true,
-    "experimentalSpecifierResolution": "node"
-  }
+  ]
 }

@@ -1,14 +1,14 @@
 ###
 
 GET http://localhost:3030/api/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjdkMWUwMjcyYTM4OWI3M2M0OWI3MWI1IiwibmFtZSI6IlJpY2FyZG8iLCJlbWFpbCI6ImF0YWtpYW1hQG91dGxvb2suY29tLmJyIn0sImlhdCI6MTc0MjUyNDA1MywiZXhwIjoxNzQyNTI0OTUzfQ.nyyjKvyW5Zbgn2yfBcNpnKzEFj-Ct9EAsI6XBr0CgR0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjdkMWUwMjcyYTM4OWI3M2M0OWI3MWI1IiwibmFtZSI6IlJpY2FyZG8iLCJlbWFpbCI6ImF0YWtpYW1hQG91dGxvb2suY29tLmJyIn0sImlhdCI6MTc0MjU2NjQwNSwiZXhwIjoxNzQyNTY3MzA1fQ.nW_8rW0GsBEM5e4iPQ8UF4k4ngJQxzadQZZNuH7gdpw
 
 ###
 GET http://localhost:3030/api/users?text=test2
 
 ###
 
-POST http://localhost:3030/api/register
+POST http://localhost:3030/api/users
 Content-Type: application/json
 
 {
@@ -22,7 +22,7 @@ DELETE http://localhost:3030/api/users/67d1eaf549743a738d79bd96
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjdkMWUwMjcyYTM4OWI3M2M0OWI3MWI1IiwibmFtZSI6IlJpY2FyZG8iLCJlbWFpbCI6ImF0YWtpYW1hQG91dGxvb2suY29tLmJyIn0sImlhdCI6MTc0MjUyNDA1MywiZXhwIjoxNzQyNTI0OTUzfQ.nyyjKvyW5Zbgn2yfBcNpnKzEFj-Ct9EAsI6XBr0CgR0
 
 ###  LOGIN
-POST http://localhost:3030/api/login
+POST http://localhost:3030/api/auth/login
 Content-Type: application/json
 
 {

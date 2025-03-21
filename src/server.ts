@@ -2,7 +2,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import cors from 'cors'
-import routes from './routes.ts'
+import routes from 'routes/index.ts'
 import { logDocumentsInCollections } from './utils.ts'
 
 const app = express()
