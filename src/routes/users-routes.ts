@@ -22,6 +22,10 @@ usersRoutes.post('/', (req: Request, res: Response, next: NextFunction) => {
   usersController.add(req, res, next);
 })
 
+usersRoutes.put('/', (req: Request, res: Response, next: NextFunction) => {
+  usersController.edit(req, res, next);
+})
+
 usersRoutes.delete('/:userId', protectRoute, (req: Request, res: Response, next: NextFunction) => {
   usersController.delete(req, res, next);
 })
