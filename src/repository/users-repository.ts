@@ -6,10 +6,9 @@ import AppError from 'utils/app-error'
 export class UsersRepository {
 
   async list (text: string) {
-    const res = mongoose.connection.
-    collection('users').find({
+    const res = await User.find({
       email: { $regex: text, $options: 'i' }
-    }).toArray()
+    })
 
     return res
   }
@@ -40,8 +39,6 @@ export class UsersRepository {
           throw new Error(`Usuário não encontrado!`)
         }
 
-        await updatedUser.save()
-
         return updatedUser
       } catch (error) {
         throw new AppError(error.message)
@@ -52,7 +49,7 @@ export class UsersRepository {
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       throw new AppError(`Id do usuário é inválido!`)
     }
-    const user = await User.findByIdAndDelete(userId);
+    const user = await User.deleteOne({ _id: userId });
 
     if (!user) {
       throw new AppError(`Usuário não encontrado!`)
