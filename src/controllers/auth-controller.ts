@@ -27,7 +27,7 @@ class AuthController {
     }
   }
 
-  refreshSession  = async (req: Request, res: Response, next: NextFunction) => {
+  refreshSession = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const secretKey = process.env.JWT_SECRET_KEY;
       
@@ -37,7 +37,7 @@ class AuthController {
 
       const { refreshToken: refreshtoken } = req.body
 
-      if (!refreshtoken) { 
+      if (!refreshtoken) {
         throw (new AppError('Token ausente', 401))
       }
       

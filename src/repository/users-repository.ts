@@ -21,15 +21,18 @@ export class UsersRepository {
     await newUser.save()
   }
 
-  async update ({ id, name, email, password }) {
+  async update ({ id, name, email, password, role }) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       throw new AppError(`Id do usuário é inválido!`)
     }
       try {
         const fields: Partial<IUser> = { name, email }
-        if (password != null) {
+        if (password) {
           const saltRounds = 10
           fields.password = await bcrypt.hash(password, saltRounds)
+        }
+        if (role) {
+          fields.role = role
         }
 
         const updatedUser: IUser = await User.findByIdAndUpdate(id, fields, { new: true })

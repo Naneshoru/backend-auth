@@ -1,10 +1,16 @@
 import mongoose, { Document, Schema } from 'mongoose'
 
+enum RoleType {
+  ADMIN = 'admin',
+  GUEST = 'guest'
+}
+
 export interface IUser extends Document {
   id: string
   name: string
   email: string
   password: string
+  role: RoleType
   refreshToken?: string
 }
 
@@ -14,7 +20,10 @@ const userSchema: Schema = new Schema<IUser>({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: function () {
     return this.isNew
-  } },
+  }},
+  role: { type: String, required: function() {
+    return this.isNew
+  }},
   refreshToken: { type: String }
 })
 

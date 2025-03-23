@@ -20,7 +20,7 @@ export class AuthRepository {
     const token = jwt.sign(
       { 
         user: { 
-          id: user._id, name: user.name, email: user.email 
+          id: user._id, name: user.name, email: user.email, role: user.role 
         }
       },
       process.env.JWT_SECRET_KEY, 
@@ -30,7 +30,7 @@ export class AuthRepository {
     const refreshToken = jwt.sign(
       { 
         user: { 
-          id: user._id, name: user.name, email: user.email 
+          id: user._id, name: user.name, email: user.email, role: user.role
         }
       },
       process.env.JWT_SECRET_KEY,
@@ -56,7 +56,7 @@ export class AuthRepository {
     const token = jwt.sign(
       { 
         user: { 
-          id: user._id, name: user.name, email: user.email 
+          id: user._id, name: user.name, email: user.email, role: user.role
         }
       }, 
       process.env.JWT_SECRET_KEY, 
@@ -66,7 +66,7 @@ export class AuthRepository {
     const newRefreshToken = jwt.sign(
       { 
         user: { 
-          id: user._id, name: user.name, email: user.email 
+          id: user._id, name: user.name, email: user.email, role: user.role
         }
       },
       process.env.JWT_SECRET_KEY,

@@ -4,7 +4,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken'
 import type { NextFunction, Request, Response } from 'express'
 import AppError from 'utils/app-error'
 
-const protectRoute = (req: Request, res: Response, next: NextFunction): void  => {
+const authenticate = (req: Request, res: Response, next: NextFunction): void  => {
   if (!process.env.JWT_SECRET_KEY) {
     throw new Error('JWT_SECRET_KEY não definido nas variáveis de ambiente')
   }
@@ -37,4 +37,4 @@ const protectRoute = (req: Request, res: Response, next: NextFunction): void  =>
   }
 }
 
-export default protectRoute
+export default authenticate
