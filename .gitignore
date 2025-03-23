@@ -2,3 +2,4 @@ node_modules
 package-lock.json
 .env
 dist
+src/database/seed-users.ts

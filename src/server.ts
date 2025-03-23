@@ -1,27 +1,19 @@
 import express, { Request, Response, NextFunction } from 'express'
-import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import routes from 'routes/index.ts'
-import { logDocumentsInCollections } from './utils/utils.ts'
 import AppError from 'utils/app-error.ts'
+import { connectDB } from './database/db.ts'
 
 const app = express()
 
-app.use(express.json())
-
 dotenv.config()
 
+connectDB()
+
+app.use(express.json())
+
 app.use(cors())
-
-main()
-  .then(() => console.log('connected to db'))
-  .catch(err => console.log(err))
-
-async function main () {
-  await mongoose.connect('mongodb://localhost:27017/test')
-  logDocumentsInCollections()
-}
 
 app.use('/api', routes)
 

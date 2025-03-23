@@ -31,8 +31,7 @@ export class UsersRepository {
           const saltRounds = 10
           fields.password = await bcrypt.hash(password, saltRounds)
         }
-    
-        console.log('fields', fields)
+
         const updatedUser: IUser = await User.findByIdAndUpdate(id, fields, { new: true })
     
         if (!updatedUser) {
