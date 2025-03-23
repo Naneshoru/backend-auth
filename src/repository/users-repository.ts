@@ -8,7 +8,7 @@ export class UsersRepository {
   async list (text: string) {
     const res = await User.find({
       email: { $regex: text, $options: 'i' }
-    })
+    }).select('name email')
 
     return res
   }
