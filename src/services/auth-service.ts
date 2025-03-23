@@ -21,7 +21,7 @@ export class AuthService {
       process.env.JWT_SECRET_KEY
     ) as DecodedToken
   
-    const { token, refreshToken } = await this.authRepository.refresh({ decoded, refreshToken: rftoken })
+    const { token, refreshToken } = await this.authRepository.refresh({ id: decoded.user.id, refreshToken: rftoken })
 
     return { token, refreshToken }
   }

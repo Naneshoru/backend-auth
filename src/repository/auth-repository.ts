@@ -43,8 +43,8 @@ export class AuthRepository {
     return { token, refreshToken }
   }
 
-  async refresh ({ decoded, refreshToken }) {
-    const user = await User.findById(decoded.user.id);
+  async refresh ({ id, refreshToken }) {
+    const user = await User.findById(id);
     if (!user) {
       throw (new AppError('Usuário não encontrado', 404))
     }
