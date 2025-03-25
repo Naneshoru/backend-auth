@@ -1,10 +1,11 @@
 ###
 
 GET http://localhost:3030/api/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjdkMWUwMjcyYTM4OWI3M2M0OWI3MWI1IiwibmFtZSI6IlJpY2FyZG8iLCJlbWFpbCI6ImF0YWtpYW1hQG91dGxvb2suY29tLmJyIn0sImlhdCI6MTc0MjU4MDAxNiwiZXhwIjoxNzQyNTgwOTE2fQ._NCRt0u9plPPXwZJ7ocFu3iGi9sE12qZdOJywxL9r3w
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjdkZjY0ZmJhODE5YTczYTcxYTYxMDFmIiwibmFtZSI6IlJpY2FyZG8iLCJlbWFpbCI6ImF0YWtpYW1hQG91dGxvb2suY29tLmJyIiwicm9sZSI6ImFkbWluIn0sImlhdCI6MTc0MjcxMDYzNCwiZXhwIjoxNzQyNzExNTM0fQ.sK6PZ2DA_n2_6d_SZWAAF6yWqtPRFvELT7xxhke9qJ4
 
 ###
-GET http://localhost:3030/api/users?text=test2
+GET http://localhost:3030/api/users?text=tinho
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjdkMWUwMjcyYTM4OWI3M2M0OWI3MWI1IiwibmFtZSI6IlJpY2FyZG8iLCJlbWFpbCI6ImF0YWtpYW1hQG91dGxvb2suY29tLmJyIn0sImlhdCI6MTc0MjY4MjQ3OCwiZXhwIjoxNzQyNjgzMzc4fQ.jtT_GvCEhR2LtSxR9h2hb8nur-fY8o4cciv2nA31dTU
 
 ###
 
@@ -18,8 +19,19 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3030/api/users/67ddacbc465746f4ed985f5c
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjdkMWUwMjcyYTM4OWI3M2M0OWI3MWI1IiwibmFtZSI6IlJpY2FyZG8iLCJlbWFpbCI6ImF0YWtpYW1hQG91dGxvb2suY29tLmJyIn0sImlhdCI6MTc0MjU4MDk1MywiZXhwIjoxNzQyNTgxODUzfQ.c74XqwmHTiJOelHc-lKD9zuGETnopErqZo9PRPhQwV0
+
+PUT http://localhost:3030/api/users
+Content-Type: application/json
+
+{
+  "id": "67afa3cb1c14144f5d4f5dd8",
+  "name": "Renato4",
+  "email": "renatinho4@outlook.com.br"
+}
+
+###
+DELETE http://localhost:3030/api/users/67afa3cb1c14144f5d4f5dd8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjdkMWUwMjcyYTM4OWI3M2M0OWI3MWI1IiwibmFtZSI6IlJpY2FyZG8iLCJlbWFpbCI6ImF0YWtpYW1hQG91dGxvb2suY29tLmJyIn0sImlhdCI6MTc0MjY4MjQ3OCwiZXhwIjoxNzQyNjgzMzc4fQ.jtT_GvCEhR2LtSxR9h2hb8nur-fY8o4cciv2nA31dTU
 
 ###  LOGIN
 POST http://localhost:3030/api/auth/login
@@ -35,5 +47,5 @@ POST http://localhost:3030/api/auth/refresh
 Content-Type: application/json
 
 {
-  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjdkMWUwMjcyYTM4OWI3M2M0OWI3MWI1IiwibmFtZSI6IlJpY2FyZG8iLCJlbWFpbCI6ImF0YWtpYW1hQG91dGxvb2suY29tLmJyIn0sImlhdCI6MTc0MjU4MzAyNSwiZXhwIjoxNzQzMTg3ODI1fQ.XjrMK2iSurQ4P07mbSbcExbBy0Qz5T_SzassC-V4lyM"
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjdkZjY0ZmJhODE5YTczYTcxYTYxMDFmIiwibmFtZSI6IlJpY2FyZG8iLCJlbWFpbCI6ImF0YWtpYW1hQG91dGxvb2suY29tLmJyIiwicm9sZSI6ImFkbWluIn0sImlhdCI6MTc0MjcxMTU2OSwiZXhwIjoxNzQzMzE2MzY5fQ.HWnAH26no_91A3qBtqRRnN5hKRI0VmLLgwNtR0qwrX0"
 }
