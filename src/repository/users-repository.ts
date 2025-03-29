@@ -1,4 +1,4 @@
-import { User, IUser } from 'models/user.ts'
+import { User, IUser } from 'models/user'
 import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import AppError from 'utils/app-error'

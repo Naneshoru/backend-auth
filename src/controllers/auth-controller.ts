@@ -1,7 +1,7 @@
 import Router, { NextFunction, Request, Response } from 'express'
 
-import { AuthService } from 'services/auth-service.ts'
-import AppError from 'utils/app-error.ts'
+import { AuthService } from 'services/auth-service'
+import AppError from 'utils/app-error'
 
 class AuthController {
   authService: AuthService

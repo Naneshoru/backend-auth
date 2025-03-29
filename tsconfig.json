@@ -2,12 +2,10 @@
   "compilerOptions": {
     "target": "es2019",
     "module": "CommonJS",
-    "noEmit": true,
     "sourceMap": true, 
     "outDir": "dist", 
     "rootDir": ".", 
     "esModuleInterop": true,
-    "allowImportingTsExtensions": true,
     "typeRoots": [
       "./node_modules/@types", 
       "./src/types"

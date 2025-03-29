@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt'
-import { User } from "models/user.ts";
+import { User } from "models/user";
 import AppError from "utils/app-error";
 
 export class AuthRepository {

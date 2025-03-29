@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import { UsersService } from 'services/users-service.ts'
+import { UsersService } from 'services/users-service'
 
 export class UsersController {
   usersService
