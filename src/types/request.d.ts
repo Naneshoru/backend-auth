@@ -1,4 +1,4 @@
-import { IUser } from "models/user.ts";
+import { IUser } from "models/user";
 
 // src/types/request.d.ts
 declare global {
