@@ -24,6 +24,6 @@ app.use((error: any, request: Request, response: Response, _: NextFunction): Pro
   response.status(500).json({ message: error.message })
 })
 
-app.listen(3030, '0.0.0.0', () => {
-  console.log('Listening on port 3030')
+app.listen(parseInt(process.env.PORT, 10) || 3030, process.env.HOST, () => {
+  console.log( `Listening on port ${process.env.PORT}`)
 })
