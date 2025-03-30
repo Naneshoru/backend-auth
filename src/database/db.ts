@@ -1,9 +1,9 @@
 import mongoose from 'mongoose'
-import { logDocumentsInCollections } from 'utils/utils.ts'
+import { logDocumentsInCollections } from 'utils/utils'
 
-const connectDB = async () => {
+const connectDB = async () => { 
   try {
-    await mongoose.connect('mongodb://localhost:27017/test')
+    await mongoose.connect(process.env.MONGO_URL)
     console.log('Conectado ao MongoDB')
 
     logDocumentsInCollections()
