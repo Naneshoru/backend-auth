@@ -17,7 +17,9 @@ export class UsersRepository {
     const saltRounds = 10
     const hashed = await bcrypt.hash(password, saltRounds)
 
-    const newUser: IUser = new User({ name, email, password: hashed })
+    const newUser: IUser = new User({ name, email, 
+      password: hashed, role: 'guest' })
+
     await newUser.save()
   }
 
