@@ -24,8 +24,8 @@ usersRoutes.get(
 )
 
 usersRoutes.post('/',
-  authorizeRoles('guest', 'admin'), 
   (req: Request, res: Response, next: NextFunction) => {
+    console.log('post')
     usersController.add(req, res, next);
   }
 )
