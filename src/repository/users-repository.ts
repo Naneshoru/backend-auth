@@ -14,6 +14,15 @@ export class UsersRepository {
   }
 
   async create ({ name, email, password }) {
+    if (!name || name.trim().length === 0) {
+      throw new AppError('O nome é obrigatório e não pode estar vazio!')
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!email || !emailRegex.test(email)) {
+      throw new AppError('O email é inválido!')
+    }
+
     const saltRounds = 10
     const hashed = await bcrypt.hash(password, saltRounds)
 
@@ -27,26 +36,40 @@ export class UsersRepository {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       throw new AppError(`Id do usuário é inválido!`)
     }
-      try {
-        const fields: Partial<IUser> = { name, email }
-        if (password) {
-          const saltRounds = 10
-          fields.password = await bcrypt.hash(password, saltRounds)
-        }
-        if (role) {
-          fields.role = role
-        }
 
-        const updatedUser: IUser = await User.findByIdAndUpdate(id, fields, { new: true })
-    
-        if (!updatedUser) {
-          throw new Error(`Usuário não encontrado!`)
-        }
+    if (name && name.trim().length === 0) {
+      throw new AppError('O nome não pode estar vazio!')
+    }
 
-        return updatedUser
-      } catch (error) {
-        throw new AppError(error.message)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (email && !emailRegex.test(email)) {
+      throw new AppError('O email é inválido!')
+    }
+
+    if (password && password.length < 6) {
+      throw new AppError('A senha deve ter pelo menos 6 caracteres!')
+    }
+
+    try {
+      const fields: Partial<IUser> = { name, email }
+      if (password) {
+        const saltRounds = 10
+        fields.password = await bcrypt.hash(password, saltRounds)
       }
+      if (role) {
+        fields.role = role
+      }
+
+      const updatedUser: IUser = await User.findByIdAndUpdate(id, fields, { new: true })
+  
+      if (!updatedUser) {
+        throw new Error(`Usuário não encontrado!`)
+      }
+
+      return updatedUser
+    } catch (error) {
+      throw new AppError(error.message)
+    }
   }
 
   async delete (userId: string) {
